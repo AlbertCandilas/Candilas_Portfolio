@@ -3,239 +3,557 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Albert Candilas' Portfolio</title>
+    <title>Albert Candilas | Full Stack Developer</title>
+    <meta name="description" content="Albert Candilas, full stack developer building web and mobile apps with Laravel, PHP, Flutter and Firebase.">
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://candilasportfolio.vercel.app/">
-    <meta property="og:title" content="Albert Candilas | Portfolio">
-    <meta property="og:description" content="BSIT Student at University of Mindanao | Web Developer, Artist, and Aspiring Chef.">
+    <meta property="og:title" content="Albert Candilas | Full Stack Developer">
+    <meta property="og:description" content="Full stack developer building web and mobile apps with Laravel, PHP, Flutter and Firebase.">
     <meta property="og:image" content="https://avatars.githubusercontent.com/u/250857140?v=4">
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;900&family=Gochi+Hand&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
     <style>
-        .section-padding { padding: 80px 0; }
-        .hero { 
-            padding: 100px 0; 
-            background: #212529; 
-            color: white; 
-        }
-        footer { background: #212529; color: white; }
-        .nav-link:hover { color: #0d6efd !important; }
-
-        .navbar-brand {
-            font-size: 1.8rem;
-            letter-spacing: -1px;
+        /* ===== Colors: change these to restyle the whole site ===== */
+        :root {
+            --paper: #EEF2F6;      /* page background, like graph paper */
+            --grid: #D6DEE8;       /* graph paper lines */
+            --white: #FFFFFF;
+            --ink: #1B2A4A;        /* main text, navy ink */
+            --muted: #5A6782;      /* secondary text */
+            --pencil: #F2C230;     /* yellow pencil accent */
+            --line: #C9D3E0;
         }
 
-        @media (max-width: 767px) {
-            section { padding: 60px 0; }
-            .hero img {
-                width: 70%;
-                max-width: 250px !important;
-                margin: 0 auto 30px auto;
-                display: block;
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+        body {
+            margin: 0;
+            font-family: "Schibsted Grotesk", system-ui, sans-serif;
+            font-size: 1.0625rem;
+            line-height: 1.6;
+            color: var(--ink);
+            background: var(--paper);
+        }
+        a { color: inherit; }
+        img { max-width: 100%; display: block; }
+        :focus-visible { outline: 3px solid var(--pencil); outline-offset: 3px; border-radius: 4px; }
+
+        .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+        .hand { font-family: "Gochi Hand", cursive; font-weight: 400; }
+
+        /* ===== Navigation ===== */
+        .nav {
+            position: fixed; inset: 0 0 auto 0; z-index: 10;
+            background: rgba(238, 242, 246, 0.92);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--line);
+        }
+        .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+        .brand { font-weight: 900; font-size: 1.4rem; text-decoration: none; letter-spacing: -0.5px; }
+        .brand span { background: var(--pencil); padding: 0 6px; border-radius: 3px; }
+        .nav ul { list-style: none; display: flex; gap: 28px; margin: 0; padding: 0; }
+        .nav ul a { text-decoration: none; font-weight: 500; color: var(--muted); }
+        .nav ul a:hover { color: var(--ink); }
+        .menu-btn { display: none; background: none; border: 0; font-size: 1.6rem; color: var(--ink); cursor: pointer; }
+
+        /* ===== Hero: the sketchbook page ===== */
+        .hero {
+            padding: 140px 0 96px;
+            background-image:
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 28px 28px;
+            border-bottom: 1px solid var(--line);
+        }
+        .hero .wrap { display: grid; grid-template-columns: 1.3fr 1fr; gap: 56px; align-items: center; }
+        .hero .wrap > * { min-width: 0; }
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 5.75rem);
+            font-weight: 900;
+            line-height: 0.95;
+            letter-spacing: -0.04em;
+            margin: 0 0 24px;
+        }
+        .hero p.intro { font-size: 1.25rem; max-width: 34ch; color: var(--muted); margin: 0 0 32px; }
+        .hero p.intro strong { color: var(--ink); font-weight: 500; }
+
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 12px 22px; border-radius: 8px;
+            font-weight: 700; font-size: 1rem; text-decoration: none;
+            border: 2px solid var(--ink); cursor: pointer;
+        }
+        .btn-ink { background: var(--ink); color: var(--white); }
+        .btn-ink:hover { background: #2B3E66; }
+        .btn-line { background: transparent; color: var(--ink); }
+        .btn-line:hover { background: var(--white); }
+        .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+        /* Taped photo */
+        .photo { position: relative; justify-self: center; width: min(320px, 100%); }
+        .photo figure {
+            margin: 0; background: var(--white); padding: 14px 14px 56px;
+            box-shadow: 0 18px 40px -18px rgba(27, 42, 74, 0.45);
+            transform: rotate(2.5deg);
+        }
+        .photo figure::before {           /* strip of tape */
+            content: ""; position: absolute; top: -14px; left: 50%;
+            width: 110px; height: 30px; transform: translateX(-50%) rotate(-4deg);
+            background: rgba(242, 194, 48, 0.75);
+        }
+        .photo figure img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; background: var(--paper); }
+        .photo figcaption { position: absolute; bottom: 14px; left: 0; right: 0; text-align: center; font-size: 1.5rem; }
+        .photo .note {
+            position: absolute; left: -96px; bottom: 28%;
+            font-size: 1.35rem; color: var(--muted); transform: rotate(-6deg);
+        }
+        .photo .note svg { display: block; margin: 2px 0 0 56px; }
+
+        /* ===== Sections ===== */
+        section.block { padding: 96px 0; }
+        section.block.alt { background: var(--white); border-block: 1px solid var(--line); }
+        .head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin-bottom: 48px; flex-wrap: wrap; }
+        .head h2 { font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 900; letter-spacing: -0.03em; line-height: 1.1; margin: 0; }
+        .head p { margin: 0; color: var(--muted); max-width: 44ch; }
+
+        /* What I do */
+        .skills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+        .skill { border-top: 3px solid var(--ink); padding-top: 20px; }
+        .skill i { font-size: 1.75rem; }
+        .skill h3 { font-size: 1.3rem; margin: 12px 0 8px; }
+        .skill p { margin: 0; color: var(--muted); }
+
+        .role { font-family: "Gochi Hand", cursive; font-size: 1.6rem; margin: 0 0 4px;
+            display: inline-block; background: var(--pencil); padding: 0 12px; border-radius: 4px; transform: rotate(-2deg); }
+        .skill .tags { margin-top: 16px; }
+
+        /* Projects */
+        .projects { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+        .thumb-icon {
+            height: 100%; display: grid; place-items: center; font-size: 4rem;
+            background-image:
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .project {
+            background: var(--white); border: 2px solid var(--ink); border-radius: 12px;
+            overflow: hidden; display: flex; flex-direction: column;
+        }
+        .project .thumb { position: relative; overflow: hidden; aspect-ratio: 16 / 10; background: var(--paper); border-bottom: 2px solid var(--ink); }
+        .project .thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+        /* Logo thumbnails: show the whole logo, centered on white */
+        .project .thumb.logo {
+            background-color: var(--paper);
+            background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .project .thumb.logo img { inset: 24px; width: calc(100% - 48px); height: calc(100% - 48px); object-fit: contain; filter: drop-shadow(0 10px 14px rgba(27,42,74,.25)); }
+        .project .body { padding: 24px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+        .project h3 { margin: 0; font-size: 1.4rem; letter-spacing: -0.01em; }
+        .project p { margin: 0; color: var(--muted); }
+        .tags { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0; }
+        .tags li { font-size: 0.85rem; font-weight: 500; background: var(--paper); border: 1px solid var(--line); padding: 2px 10px; border-radius: 999px; }
+        .project .links { margin-top: auto; padding-top: 8px; display: flex; gap: 12px; flex-wrap: wrap; }
+        .project .links .btn { padding: 8px 16px; font-size: 0.95rem; }
+        .project.is-new { position: relative; }
+        .project.is-new::after {
+            content: "new!"; position: absolute; top: 12px; right: 14px;
+            font-family: "Gochi Hand", cursive; font-size: 1.3rem;
+            background: var(--pencil); padding: 0 12px; border-radius: 4px; transform: rotate(4deg);
+        }
+
+        /* Certifications: compact list */
+        .certs { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+        .certs li {
+            display: grid; grid-template-columns: 40px 1fr auto; gap: 16px; align-items: center;
+            padding: 20px 0; border-bottom: 1px solid var(--line);
+        }
+        .certs i { font-size: 1.5rem; }
+        .certs h3 { margin: 0; font-size: 1.15rem; }
+        .certs small { color: var(--muted); font-size: 0.95rem; }
+        .certs a { font-weight: 700; text-underline-offset: 4px; white-space: nowrap; }
+
+        /* Education: timeline */
+        .timeline { list-style: none; margin: 0; padding: 0 0 0 28px; border-left: 2px solid var(--ink); max-width: 640px; }
+        .timeline li { position: relative; padding: 0 0 40px 8px; }
+        .timeline li:last-child { padding-bottom: 0; }
+        .timeline li::before {
+            content: ""; position: absolute; left: -38px; top: 6px;
+            width: 16px; height: 16px; border-radius: 50%;
+            background: var(--paper); border: 3px solid var(--ink);
+        }
+        .timeline li.now::before { background: var(--pencil); }
+        .timeline .year { font-weight: 700; color: var(--muted); font-size: 0.95rem; }
+        .timeline h3 { margin: 2px 0 4px; font-size: 1.3rem; }
+        .timeline p { margin: 0; color: var(--muted); }
+
+        /* Contact */
+        .contact { text-align: center; }
+        .contact h2 { font-size: clamp(2.25rem, 5vw, 3.5rem); font-weight: 900; letter-spacing: -0.03em; margin: 0 0 12px; }
+        .contact p { color: var(--muted); margin: 0 auto 32px; max-width: 46ch; }
+        .contact .actions { justify-content: center; }
+
+        footer { background: var(--ink); color: rgba(255,255,255,0.75); padding: 32px 0; font-size: 0.95rem; }
+        footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+        footer .social { display: flex; gap: 20px; font-size: 1.4rem; }
+        footer .social a { color: var(--white); }
+        footer .social a:hover { color: var(--pencil); }
+
+        /* ===== Phones and tablets ===== */
+        @media (max-width: 860px) {
+            .hero .wrap { grid-template-columns: 1fr; gap: 64px; }
+            .photo .note { display: none; }
+            .photo { width: min(280px, 85%); }
+            .skills { grid-template-columns: 1fr; gap: 32px; }
+            .projects { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 720px) {
+            .menu-btn { display: block; }
+            .nav ul {
+                display: none; position: absolute; top: 64px; left: 0; right: 0;
+                flex-direction: column; gap: 0; background: var(--paper);
+                border-bottom: 1px solid var(--line); padding: 8px 24px 16px;
             }
-            .hero h1 { font-size: 2.2rem; }
-            .col-sm-12 { width: 100%; }
+            .nav ul.open { display: flex; }
+            .nav ul a { display: block; padding: 10px 0; }
+            .hero { padding-top: 112px; }
+            section.block { padding: 72px 0; }
+            .projects { grid-template-columns: 1fr; }
+            .certs li { grid-template-columns: 32px 1fr; }
+            .certs a { grid-column: 2; }
         }
+        @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+        /* ===== Smooth motion ===== */
+        :root { --ease: cubic-bezier(.22, .8, .24, 1); }
+
+        /* Buttons, links and cards respond gently */
+        .btn { transition: transform .25s var(--ease), background-color .25s, box-shadow .25s; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 18px -10px rgba(27,42,74,.6); }
+        .btn:active { transform: translateY(0); }
+        .nav ul a { position: relative; transition: color .2s; }
+        .nav ul a::after {
+            content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 2px;
+            background: var(--pencil); transform: scaleX(0); transform-origin: left;
+            transition: transform .3s var(--ease);
+        }
+        .nav ul a:hover::after, .nav ul a.active::after { transform: scaleX(1); }
+        .nav ul a.active { color: var(--ink); }
+        .nav { transition: box-shadow .3s; }
+        .nav.scrolled { box-shadow: 0 6px 20px -14px rgba(27,42,74,.5); }
+
+        .project { transition: transform .35s var(--ease), box-shadow .35s var(--ease); }
+        .project:hover { transform: translateY(-6px); box-shadow: 8px 10px 0 var(--ink); }
+        .project .thumb img, .thumb-icon i { transition: transform .5s var(--ease); }
+        .project:hover .thumb img, .project:hover .thumb-icon i { transform: scale(1.06); }
+        .certs a { transition: color .2s; }
+        .certs a:hover { color: #2B3E66; }
+        footer .social a { transition: color .2s, transform .25s var(--ease); display: inline-block; }
+        footer .social a:hover { transform: translateY(-3px); }
+        .photo figure { transition: transform .5s var(--ease); }
+        .photo:hover figure { transform: rotate(0deg) scale(1.02); }
+
+        /* Hero entrance on page load */
+        @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+        @keyframes drop { from { opacity: 0; transform: translateY(-24px) rotate(8deg); } to { opacity: 1; transform: rotate(2.5deg); } }
+        .hero .role    { animation: rise .7s var(--ease) both .05s; }
+        .hero h1       { animation: rise .7s var(--ease) both .15s; }
+        .hero .intro   { animation: rise .7s var(--ease) both .28s; }
+        .hero .actions { animation: rise .7s var(--ease) both .4s; }
+        .photo figure  { animation: drop .9s var(--ease) both .35s; }
+        .photo .note   { animation: rise .6s var(--ease) both 1.1s; }
+
+        /* Sections fade in as you scroll */
+        .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+        .reveal.in { opacity: 1; transform: none; }
+
+        /* Mobile menu slides open */
+        @media (max-width: 720px) {
+            .nav ul {
+                display: flex !important; opacity: 0; transform: translateY(-8px); pointer-events: none;
+                transition: opacity .25s, transform .3s var(--ease);
+            }
+            .nav ul.open { opacity: 1; transform: none; pointer-events: auto; }
+            .nav ul a::after { display: none; }
+            .project:hover { transform: none; box-shadow: none; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { animation: none !important; transition: none !important; }
+            .reveal { opacity: 1; transform: none; }
+        }
+
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="#">AC</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#certifications">Certifications</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#education">Education</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
-                </ul>
-            </div>
+    <nav class="nav">
+        <div class="wrap">
+            <a class="brand" href="#home"><span>AC</span></a>
+            <button class="menu-btn" aria-label="Open menu" aria-expanded="false"><i class="bi bi-list"></i></button>
+            <ul id="menu">
+                <li><a href="#services">What I do</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#certifications">Certifications</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
         </div>
     </nav>
 
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="row align-items-center text-center text-md-start">
-                <div class="col-md-6 order-last order-md-first">
-                    <h1 class="display-4 fw-bold">Hi, I'm Albert 👋</h1>
-                    <p class="lead">A Beginner Web Developer</p>
-                    <a href="#projects" class="btn btn-primary btn-lg mt-3">View My Work</a>
+    <header id="home" class="hero">
+        <div class="wrap">
+            <div>
+                <p class="role">Full stack developer</p>
+                <h1>Hi, I'm Albert.</h1>
+                <p class="intro"><strong>I build web and mobile apps from end to end</strong>, from the database and server to the screen people use. I'm a BSIT student at the University of Mindanao, and when I'm away from code, I'm sketching or cooking.</p>
+                <div class="actions">
+                    <a href="#projects" class="btn btn-ink">View my work</a>
+                    <a href="https://github.com/AlbertCandilas" target="_blank" rel="noopener" class="btn btn-line"><i class="bi bi-github"></i> GitHub</a>
                 </div>
-                <div class="col-md-6 text-center">
-                    <img src="https://avatars.githubusercontent.com/u/250857140?v=4" class="img-fluid rounded border border-4 border-light" style="max-width:350px;" alt="Profile">
+            </div>
+            <div class="photo">
+                <figure>
+                    <img src="https://avatars.githubusercontent.com/u/250857140?v=4" alt="Photo of Albert Candilas" width="460" height="460">
+                    <figcaption class="hand">Albert, 2026</figcaption>
+                </figure>
+                <div class="note hand" aria-hidden="true">
+                    that's me!
+                    <svg width="52" height="28" viewBox="0 0 52 28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 4 C 18 4, 34 10, 46 22"/><path d="M38 22 L 47 23 L 45 14"/></svg>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="services" class="block">
+        <div class="wrap">
+            <div class="head">
+                <h2>What I do</h2>
+                <p>I work across the whole stack, so I can take an idea from a database table to a working app.</p>
+            </div>
+            <div class="skills">
+                <div class="skill">
+                    <i class="bi bi-window-stack"></i>
+                    <h3>Front end</h3>
+                    <p>Responsive interfaces that work on any screen size.</p>
+                    <ul class="tags"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Vite</li></ul>
+                </div>
+                <div class="skill">
+                    <i class="bi bi-hdd-stack"></i>
+                    <h3>Back end</h3>
+                    <p>Server logic, APIs and databases that keep an app's data organized and safe.</p>
+                    <ul class="tags"><li>PHP</li><li>Laravel</li><li>Python</li><li>SQL</li><li>Docker</li></ul>
+                </div>
+                <div class="skill">
+                    <i class="bi bi-phone"></i>
+                    <h3>Mobile apps</h3>
+                    <p>Cross-platform apps for Android and iOS from a single codebase.</p>
+                    <ul class="tags"><li>Flutter</li><li>Dart</li><li>Firebase</li></ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="services" class="section-padding">
-        <div class="container">
-            <h2 class="text-center mb-5 fw-bold">My Services</h2>
-            <div class="row g-4 text-center">
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm p-4 border-0">
-                        <i class="bi bi-code-slash fs-1 text-primary mb-3"></i>
-                        <h4>Programming</h4>
-                        <p class="text-muted">Building responsive web applications and solving problems through code.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm p-4 border-0">
-                        <i class="bi bi-pencil-fill fs-1 text-danger mb-3"></i>
-                        <h4>Visual Arts</h4>
-                        <p class="text-muted">Versatile artist skilled in traditional paper sketching and digital illustration.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm p-4 border-0">
-                        <i class="bi bi-egg-fried fs-1 text-warning mb-3"></i>
-                        <h4>Culinary Arts</h4>
-                        <p class="text-muted">Experimenting with flavors and creating delicious home-cooked meals.</p>
-                    </div>
-                </div>
+    <section id="projects" class="block alt">
+        <div class="wrap">
+            <div class="head">
+                <h2>Projects</h2>
+                <p>Things I've built. The source code for each is on GitHub.</p>
             </div>
-        </div>
-    </section>
+            <div class="projects">
 
-<section id="certifications" class="section-padding bg-light">
-    <div class="container">
-        <h2 class="text-center mb-5 fw-bold">Professional Certifications</h2>
-        <div class="row g-4 text-center">
-            
-            <div class="col-md-4">
-                <div class="card h-100 shadow-sm p-4 border-0">
-                    <i class="bi bi-code-slash fs-1 text-info mb-3"></i>
-                    <h5>Python Developer</h5>
-                    <p class="small text-muted">Sololearn | Dec 2025</p>
-                    <a href="https://www.sololearn.com/certificates/CC-K7OHPG98" target="_blank" class="btn btn-info text-white btn-sm mt-auto">View Certificate</a>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card h-100 shadow-sm p-4 border-0">
-                    <i class="bi bi-database-fill-check fs-1 text-success mb-3"></i>
-                    <h5>SQL Intermediate</h5>
-                    <p class="small text-muted">Sololearn | Nov 2025</p>
-                    <a href="https://www.sololearn.com/certificates/CC-PB4ACB4L" target="_blank" class="btn btn-success btn-sm mt-auto">View Certificate</a>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card h-100 shadow-sm p-4 border-0">
-                    <i class="bi bi-database fs-1 text-primary mb-3"></i>
-                    <h5>Introduction to SQL</h5>
-                    <p class="small text-muted">Sololearn | Nov 2025</p>
-                    <a href="https://www.sololearn.com/certificates/CC-LACBZLRZ" target="_blank" class="btn btn-primary btn-sm mt-auto">View Certificate</a>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-    <section id="education" class="section-padding">
-        <div class="container">
-            <h2 class="text-center mb-5 fw-bold">Education</h2>
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-                
-                <div class="col">
-                    <div class="card h-100 shadow-sm border-0 border-top border-primary border-4 p-4">
-                        <h5 class="text-primary fw-bold">BS in IT</h5>
-                        <p class="mb-1 fw-bold">University of Mindanao</p>
-                        <p class="text-muted small">2024 – Present</p>
-                        <p class="small mb-0">Focusing on web development, programming, and database management.</p>
+                <article class="project is-new">
+                    <div class="thumb logo">
+                        <img src="image/lost-and-found.svg" alt="Lost and Found App logo" loading="lazy">
                     </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100 shadow-sm border-0 border-top border-secondary border-4 p-4">
-                        <h5 class="fw-bold">High School</h5>
-                        <p class="mb-1 ">Ipil National High School</p>
-                        <p class="text-muted small">Completed 2024</p>
-                        <p class="small mb-0">Academic track completion and foundational studies.</p>
-                    </div>
-                </div>
-
-                <div class="col">
-                    <div class="card h-100 shadow-sm border-0 border-top border-info border-4 p-4">
-                        <h5 class="fw-bold">Elementary</h5>
-                        <p class="mb-1">Ipil Elementary School</p>
-                        <p class="text-muted small">Graduated 2018</p>
-                        <p class="small mb-0">Early childhood education and basic academic foundation.</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section id="projects" class="section-padding bg-light">
-        <div class="container">
-            <h2 class="text-center mb-5 fw-bold">My Projects</h2>
-            <div class="row justify-content-center">
-                <div class="col-md-4">
-                    <div class="card h-100 shadow-sm border-0">
-                        <img src="image/logo.PNG" class="card-img-top" alt="Alberto Food Ordering">
-                        <div class="card-body d-flex flex-column">
-                            <h5 class="card-title fw-bold">Alberto Food Ordering</h5>
-                            <p class="card-text text-muted">A functional desktop application for browsing menus and placing food orders.</p>
-                            <div class="mt-auto">
-                                <a href="https://github.com/AlbertCandilas/Alberto-Food-Ordering" target="_blank" class="btn btn-dark w-100">
-                                    <i class="bi bi-github"></i> View on GitHub
-                                </a>
-                            </div>
+                    <div class="body">
+                        <h3>Lost and Found App</h3>
+                        <p>A mobile app that helps people report lost items and reconnect with things others have found. Built with Flutter, with Firebase as the back end.</p>
+                        <ul class="tags">
+                            <li>Flutter</li>
+                            <li>Dart</li>
+                            <li>Firebase</li>
+                        </ul>
+                        <div class="links">
+                            <a href="https://github.com/AlbertCandilas/Lost_and_Found_App" target="_blank" rel="noopener" class="btn btn-ink"><i class="bi bi-github"></i> View code</a>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                </article>
 
-    <section id="contact" class="section-padding">
-        <div class="container">
-            <h2 class="text-center mb-5 fw-bold">Contact Me</h2>
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="card p-4 shadow-sm border-0">
-                        <form>
-                            <div class="mb-3">
-                                <input type="text" class="form-control" placeholder="Name">
-                            </div>
-                            <div class="mb-3">
-                                <input type="email" class="form-control" placeholder="Email">
-                            </div>
-                            <div class="mb-3">
-                                <textarea class="form-control" rows="4" placeholder="Message"></textarea>
-                            </div>
-                            <button class="btn btn-primary w-100">Send Message</button>
-                        </form>
+                <article class="project is-new">
+                    <div class="thumb logo">
+                        <img src="image/car-management%20(1).svg" alt="Car Management System logo" loading="lazy">
                     </div>
-                </div>
+                    <div class="body">
+                        <h3>Car Management System</h3>
+                        <p>A full stack web application for keeping track of car records, built with Laravel and a Vite front end, and packaged with Docker.</p>
+                        <ul class="tags">
+                            <li>PHP</li>
+                            <li>Laravel</li>
+                            <li>Vite</li>
+                            <li>Docker</li>
+                        </ul>
+                        <div class="links">
+                            <a href="https://github.com/AlbertCandilas/Car_Management_System" target="_blank" rel="noopener" class="btn btn-ink"><i class="bi bi-github"></i> View code</a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="project">
+                    <div class="thumb logo">
+                        <img src="image/logo.PNG" alt="Alberto Food Ordering logo" loading="lazy">
+                    </div>
+                    <div class="body">
+                        <h3>Alberto Food Ordering</h3>
+                        <p>A desktop application for browsing menus and placing food orders.</p>
+                        <ul class="tags">
+                            <li>Desktop app</li>
+                        </ul>
+                        <div class="links">
+                            <a href="https://github.com/AlbertCandilas/Alberto-Food-Ordering" target="_blank" rel="noopener" class="btn btn-ink"><i class="bi bi-github"></i> View code</a>
+                        </div>
+                    </div>
+                </article>
+
             </div>
         </div>
     </section>
 
-    <footer class="text-center py-5">
-        <div class="container">
-            <div class="mb-4">
-               <a href="https://www.facebook.com/albert.candilas" target="_blank" class="social-icon me-3 fs-3"><i class="bi bi-facebook"></i></a>
-                <a href="https://github.com/AlbertCandilas" target="_blank" class="text-white me-3 fs-3"><i class="bi bi-github"></i></a>
-                <a href="#" class="text-white me-3 fs-3"><i class="bi bi-linkedin"></i></a>
-                <a href="#" class="text-white fs-3"><i class="bi bi-envelope-fill"></i></a>
+    <section id="certifications" class="block">
+        <div class="wrap">
+            <div class="head">
+                <h2>Certifications</h2>
             </div>
-            <p class="mb-0 opacity-75">© 2026 Albert Candilas | All Rights Reserved</p>
+            <ul class="certs">
+                <li>
+                    <i class="bi bi-filetype-py"></i>
+                    <div><h3>Python Developer</h3><small>Sololearn, December 2025</small></div>
+                    <a href="https://www.sololearn.com/certificates/CC-K7OHPG98" target="_blank" rel="noopener">View certificate</a>
+                </li>
+                <li>
+                    <i class="bi bi-database-check"></i>
+                    <div><h3>SQL Intermediate</h3><small>Sololearn, November 2025</small></div>
+                    <a href="https://www.sololearn.com/certificates/CC-PB4ACB4L" target="_blank" rel="noopener">View certificate</a>
+                </li>
+                <li>
+                    <i class="bi bi-database"></i>
+                    <div><h3>Introduction to SQL</h3><small>Sololearn, November 2025</small></div>
+                    <a href="https://www.sololearn.com/certificates/CC-LACBZLRZ" target="_blank" rel="noopener">View certificate</a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="education" class="block alt">
+        <div class="wrap">
+            <div class="head">
+                <h2>Education</h2>
+            </div>
+            <ol class="timeline">
+                <li class="now">
+                    <span class="year">2024 to present</span>
+                    <h3>BS in Information Technology</h3>
+                    <p>University of Mindanao. Focusing on web development, programming and database management.</p>
+                </li>
+                <li>
+                    <span class="year">Completed 2024</span>
+                    <h3>High School</h3>
+                    <p>Ipil National High School. Academic track.</p>
+                </li>
+                <li>
+                    <span class="year">Graduated 2018</span>
+                    <h3>Elementary</h3>
+                    <p>Ipil Elementary School.</p>
+                </li>
+            </ol>
+        </div>
+    </section>
+
+    <section id="contact" class="block contact">
+        <div class="wrap">
+            <h2>Let's work together</h2>
+            <p>Have a project in mind or just want to say hi? Send me a message.</p>
+            <div class="actions">
+                <!-- Replace YOUR-EMAIL with your email address -->
+                <a href="mailto:YOUR-EMAIL@example.com" class="btn btn-ink"><i class="bi bi-envelope"></i> Email me</a>
+                <a href="https://www.facebook.com/albert.candilas" target="_blank" rel="noopener" class="btn btn-line"><i class="bi bi-facebook"></i> Facebook</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="wrap">
+            <p style="margin:0">© 2026 Albert Candilas</p>
+            <div class="social">
+                <a href="https://github.com/AlbertCandilas" target="_blank" rel="noopener" aria-label="GitHub"><i class="bi bi-github"></i></a>
+                <a href="https://www.facebook.com/albert.candilas" target="_blank" rel="noopener" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                <!-- Add your LinkedIn link here when you have one:
+                <a href="https://www.linkedin.com/in/YOUR-NAME" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                -->
+            </div>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Mobile menu toggle
+        const nav = document.querySelector('.nav');
+        const btn = document.querySelector('.menu-btn');
+        const menu = document.getElementById('menu');
+        btn.addEventListener('click', () => {
+            const open = menu.classList.toggle('open');
+            btn.setAttribute('aria-expanded', open);
+            btn.querySelector('i').className = open ? 'bi bi-x-lg' : 'bi bi-list';
+        });
+        menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+            menu.classList.remove('open');
+            btn.setAttribute('aria-expanded', false);
+            btn.querySelector('i').className = 'bi bi-list';
+        }));
+
+        // Shadow under the nav once you scroll
+        const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+
+        // Fade sections in as they scroll into view
+        const items = document.querySelectorAll('.head, .skill, .project, .certs li, .timeline li, .contact .wrap');
+        items.forEach(el => el.classList.add('reveal'));
+        // Stagger items that sit side by side
+        document.querySelectorAll('.skills, .projects, .certs, .timeline').forEach(group => {
+            [...group.children].forEach((el, i) => el.style.transitionDelay = (i * 0.1) + 's');
+        });
+        if ('IntersectionObserver' in window) {
+            const io = new IntersectionObserver(entries => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) {
+                        e.target.classList.add('in');
+                        io.unobserve(e.target);
+                        // remove delay after reveal so hover effects stay snappy
+                        setTimeout(() => e.target.style.transitionDelay = '', 1200);
+                    }
+                });
+            }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+            items.forEach(el => io.observe(el));
+        } else {
+            items.forEach(el => el.classList.add('in'));
+        }
+
+        // Highlight the nav link for the section on screen
+        const links = [...menu.querySelectorAll('a')];
+        const sections = links.map(a => document.querySelector(a.getAttribute('href')));
+        const spy = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id));
+                }
+            });
+        }, { rootMargin: '-45% 0px -50% 0px' });
+        sections.forEach(sec => sec && spy.observe(sec));
+    </script>
 </body>
 </html>
