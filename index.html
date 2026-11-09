@@ -178,6 +178,46 @@
             background: var(--pencil); color: #fff; padding: 0 12px; border-radius: 4px; transform: rotate(4deg);
         }
 
+        /* Featured certification */
+        .featured {
+            display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px; align-items: center;
+            background: var(--white); border: 1px solid var(--pencil); border-radius: 16px;
+            padding: 40px; position: relative; overflow: hidden;
+            box-shadow: 0 0 0 1px rgba(157,78,221,.15), 0 24px 60px -24px var(--glow);
+        }
+        .featured::before {           /* soft violet glow behind the card */
+            content: ""; position: absolute; inset: -40% auto auto -20%; width: 70%; aspect-ratio: 1;
+            background: radial-gradient(circle, rgba(157,78,221,.22), transparent 65%); pointer-events: none;
+        }
+        .featured > * { position: relative; min-width: 0; }
+        .featured .cert-img {
+            display: block; border-radius: 10px; overflow: hidden; background: #fff;
+            border: 1px solid var(--line); transform: rotate(-1.5deg);
+            box-shadow: 0 20px 44px -18px rgba(0,0,0,.8), 0 0 40px -10px var(--glow);
+            transition: transform .5s var(--ease, ease);
+        }
+        .featured .cert-img:hover { transform: rotate(0) scale(1.02); }
+        .featured .cert-img img { width: 100%; height: auto; }
+        .featured .eyebrow {
+            display: inline-flex; align-items: center; gap: 8px; margin: 0 0 16px;
+            font-size: .85rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+            color: var(--pencil);
+        }
+        .featured h2 { font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 900; letter-spacing: -0.03em; line-height: 1.05; margin: 0 0 8px; }
+        .featured .issuer { margin: 0 0 20px; color: var(--muted); font-size: 1.1rem; }
+        .featured .facts { list-style: none; margin: 0 0 28px; padding: 0; display: grid; grid-template-columns: repeat(3, auto); gap: 8px 28px; justify-content: start; }
+        .featured .facts span { display: block; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+        .featured .facts strong { font-size: 1.05rem; }
+        .featured code { font-family: ui-monospace, monospace; background: var(--paper); border: 1px solid var(--line); padding: 1px 8px; border-radius: 6px; }
+        .hero .cert-chip {
+            display: inline-flex; align-items: center; gap: 8px; margin: 0 0 20px;
+            padding: 6px 14px; border: 1px solid var(--pencil); border-radius: 999px;
+            font-size: .95rem; font-weight: 500; text-decoration: none; color: var(--ink);
+            background: rgba(157,78,221,.12); animation: rise .7s var(--ease) both .22s;
+        }
+        .hero .cert-chip i { color: var(--pencil); }
+        .hero .cert-chip:hover { background: rgba(157,78,221,.25); }
+
         /* Certifications: compact list */
         .certs { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
         .certs li {
@@ -222,6 +262,7 @@
             .photo { width: min(280px, 85%); }
             .skills { grid-template-columns: 1fr; gap: 32px; }
             .projects { grid-template-columns: 1fr 1fr; }
+            .featured { grid-template-columns: 1fr; gap: 32px; padding: 28px; }
         }
         @media (max-width: 720px) {
             .menu-btn { display: block; }
@@ -237,6 +278,8 @@
             .projects { grid-template-columns: 1fr; }
             .certs li { grid-template-columns: 32px 1fr; }
             .certs a { grid-column: 2; }
+            .featured { padding: 20px; }
+            .featured .facts { grid-template-columns: 1fr 1fr; }
         }
         @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
         /* ===== Smooth motion ===== */
@@ -322,6 +365,7 @@
             <div>
                 <p class="role">Half stack developer</p>
                 <h1>Hi, I'm Albert.</h1>
+                <a href="#its" class="cert-chip"><i class="bi bi-patch-check-fill"></i> IT Specialist certified: HTML and CSS</a>
                 <p class="intro"><strong>I build web and mobile apps from end to end</strong>, from the database and server to the screen people use. I'm a BSIT student at the University of Mindanao, and when I'm away from code, I'm sketching or cooking.</p>
                 <div class="actions">
                     <a href="#projects" class="btn btn-ink">View my work</a>
@@ -340,6 +384,30 @@
             </div>
         </div>
     </header>
+
+    <section id="its" class="block alt">
+        <div class="wrap">
+            <div class="featured">
+                <div>
+                    <p class="eyebrow"><i class="bi bi-patch-check-fill"></i> Industry certification</p>
+                    <h2>IT Specialist: HTML and CSS</h2>
+                    <p class="issuer">Information Technology Specialist certification from Certiport, a Pearson VUE business.</p>
+                    <ul class="facts">
+                        <li><span>Awarded</span><strong>May 22, 2026</strong></li>
+                        <li><span>Valid through</span><strong>May 2031</strong></li>
+                        <li><span>Verification code</span><strong><code>nwuu-uTn8</code></strong></li>
+                    </ul>
+                    <div class="actions">
+                        <a href="image/its-html-css.pdf" target="_blank" rel="noopener" class="btn btn-ink"><i class="bi bi-file-earmark-pdf"></i> View certificate</a>
+                        <a href="https://verify.certiport.com" target="_blank" rel="noopener" class="btn btn-line"><i class="bi bi-shield-check"></i> Verify on Certiport</a>
+                    </div>
+                </div>
+                <a class="cert-img" href="image/its-html-css.pdf" target="_blank" rel="noopener" aria-label="Open the IT Specialist HTML and CSS certificate">
+                    <img src="image/its-html-css.jpg" alt="IT Specialist HTML and CSS certificate awarded to Alberto Mantilla Candilas on May 22, 2026" width="1430" height="1105" loading="lazy">
+                </a>
+            </div>
+        </div>
+    </section>
 
     <section id="services" class="block">
         <div class="wrap">
@@ -438,7 +506,7 @@
     <section id="certifications" class="block">
         <div class="wrap">
             <div class="head">
-                <h2>Certifications</h2>
+                <h2>More certifications</h2>
             </div>
             <ul class="certs">
                 <li>
@@ -532,7 +600,7 @@
         onScroll();
 
         // Fade sections in as they scroll into view
-        const items = document.querySelectorAll('.head, .skill, .project, .certs li, .timeline li, .contact .wrap');
+        const items = document.querySelectorAll('.featured, .head, .skill, .project, .certs li, .timeline li, .contact .wrap');
         items.forEach(el => el.classList.add('reveal'));
         // Stagger items that sit side by side
         document.querySelectorAll('.skills, .projects, .certs, .timeline').forEach(group => {
