@@ -20,13 +20,15 @@
     <style>
         /* ===== Colors: change these to restyle the whole site ===== */
         :root {
-            --paper: #EEF2F6;      /* page background, like graph paper */
-            --grid: #D6DEE8;       /* graph paper lines */
-            --white: #FFFFFF;
-            --ink: #1B2A4A;        /* main text, navy ink */
-            --muted: #5A6782;      /* secondary text */
-            --pencil: #F2C230;     /* yellow pencil accent */
-            --line: #C9D3E0;
+            --paper: #0B0B12;      /* page background, near-black */
+            --grid: rgba(157, 78, 221, 0.10); /* faint violet grid lines */
+            --white: #14111F;      /* card / panel surface */
+            --ink: #F5F3FF;        /* main text, pale violet-white */
+            --muted: #A9A3C2;      /* secondary text */
+            --pencil: #9D4EDD;     /* violet accent */
+            --deep: #4C1D95;       /* deep purple */
+            --glow: rgba(157, 78, 221, 0.55);
+            --line: rgba(157, 78, 221, 0.22);
         }
 
         * { box-sizing: border-box; }
@@ -38,7 +40,14 @@
             line-height: 1.6;
             color: var(--ink);
             background: var(--paper);
+            position: relative;
         }
+        /* ===== Animated shadow background ===== */
+        #shadow-bg {
+            position: fixed; inset: 0; z-index: -1;
+            width: 100%; height: 100%; display: block; pointer-events: none;
+        }
+        ::selection { background: var(--pencil); color: #fff; }
         a { color: inherit; }
         img { max-width: 100%; display: block; }
         :focus-visible { outline: 3px solid var(--pencil); outline-offset: 3px; border-radius: 4px; }
@@ -49,13 +58,13 @@
         /* ===== Navigation ===== */
         .nav {
             position: fixed; inset: 0 0 auto 0; z-index: 10;
-            background: rgba(238, 242, 246, 0.92);
+            background: rgba(11, 11, 18, 0.72);
             backdrop-filter: blur(8px);
             border-bottom: 1px solid var(--line);
         }
         .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
         .brand { font-weight: 900; font-size: 1.4rem; text-decoration: none; letter-spacing: -0.5px; }
-        .brand span { background: var(--pencil); padding: 0 6px; border-radius: 3px; }
+        .brand span { background: var(--pencil); color: #fff; padding: 0 6px; border-radius: 3px; box-shadow: 0 0 18px var(--glow); }
         .nav ul { list-style: none; display: flex; gap: 28px; margin: 0; padding: 0; }
         .nav ul a { text-decoration: none; font-weight: 500; color: var(--muted); }
         .nav ul a:hover { color: var(--ink); }
@@ -64,6 +73,7 @@
         /* ===== Hero: the sketchbook page ===== */
         .hero {
             padding: 140px 0 96px;
+            background-color: transparent;
             background-image:
                 linear-gradient(var(--grid) 1px, transparent 1px),
                 linear-gradient(90deg, var(--grid) 1px, transparent 1px);
@@ -88,23 +98,23 @@
             font-weight: 700; font-size: 1rem; text-decoration: none;
             border: 2px solid var(--ink); cursor: pointer;
         }
-        .btn-ink { background: var(--ink); color: var(--white); }
-        .btn-ink:hover { background: #2B3E66; }
-        .btn-line { background: transparent; color: var(--ink); }
-        .btn-line:hover { background: var(--white); }
+        .btn-ink { background: var(--pencil); border-color: var(--pencil); color: #fff; }
+        .btn-ink:hover { background: #8A3BCB; }
+        .btn-line { background: rgba(11,11,18,.4); color: var(--ink); border-color: var(--line); }
+        .btn-line:hover { background: var(--white); border-color: var(--pencil); }
         .actions { display: flex; flex-wrap: wrap; gap: 12px; }
 
         /* Taped photo */
         .photo { position: relative; justify-self: center; width: min(320px, 100%); }
         .photo figure {
             margin: 0; background: var(--white); padding: 14px 14px 56px;
-            box-shadow: 0 18px 40px -18px rgba(27, 42, 74, 0.45);
+            box-shadow: 0 0 0 1px var(--line), 0 18px 50px -12px rgba(157, 78, 221, 0.55);
             transform: rotate(2.5deg);
         }
         .photo figure::before {           /* strip of tape */
             content: ""; position: absolute; top: -14px; left: 50%;
             width: 110px; height: 30px; transform: translateX(-50%) rotate(-4deg);
-            background: rgba(242, 194, 48, 0.75);
+            background: rgba(157, 78, 221, 0.7);
         }
         .photo figure img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; background: var(--paper); }
         .photo figcaption { position: absolute; bottom: 14px; left: 0; right: 0; text-align: center; font-size: 1.5rem; }
@@ -116,20 +126,20 @@
 
         /* ===== Sections ===== */
         section.block { padding: 96px 0; }
-        section.block.alt { background: var(--white); border-block: 1px solid var(--line); }
+        section.block.alt { background: rgba(20, 17, 31, 0.55); backdrop-filter: blur(2px); border-block: 1px solid var(--line); }
         .head { display: flex; align-items: baseline; justify-content: space-between; gap: 24px; margin-bottom: 48px; flex-wrap: wrap; }
         .head h2 { font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 900; letter-spacing: -0.03em; line-height: 1.1; margin: 0; }
         .head p { margin: 0; color: var(--muted); max-width: 44ch; }
 
         /* What I do */
         .skills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
-        .skill { border-top: 3px solid var(--ink); padding-top: 20px; }
-        .skill i { font-size: 1.75rem; }
+        .skill { border-top: 3px solid var(--pencil); padding-top: 20px; }
+        .skill i { font-size: 1.75rem; color: var(--pencil); text-shadow: 0 0 16px var(--glow); }
         .skill h3 { font-size: 1.3rem; margin: 12px 0 8px; }
         .skill p { margin: 0; color: var(--muted); }
 
         .role { font-family: "Gochi Hand", cursive; font-size: 1.6rem; margin: 0 0 4px;
-            display: inline-block; background: var(--pencil); padding: 0 12px; border-radius: 4px; transform: rotate(-2deg); }
+            display: inline-block; background: var(--pencil); color: #fff; padding: 0 12px; border-radius: 4px; transform: rotate(-2deg); }
         .skill .tags { margin-top: 16px; }
 
         /* Projects */
@@ -142,10 +152,10 @@
             background-size: 20px 20px;
         }
         .project {
-            background: var(--white); border: 2px solid var(--ink); border-radius: 12px;
+            background: var(--white); border: 1px solid var(--line); border-radius: 12px;
             overflow: hidden; display: flex; flex-direction: column;
         }
-        .project .thumb { position: relative; overflow: hidden; aspect-ratio: 16 / 10; background: var(--paper); border-bottom: 2px solid var(--ink); }
+        .project .thumb { position: relative; overflow: hidden; aspect-ratio: 16 / 10; background: var(--paper); border-bottom: 1px solid var(--line); }
         .project .thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
         /* Logo thumbnails: show the whole logo, centered on white */
         .project .thumb.logo {
@@ -153,7 +163,7 @@
             background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
             background-size: 20px 20px;
         }
-        .project .thumb.logo img { inset: 24px; width: calc(100% - 48px); height: calc(100% - 48px); object-fit: contain; filter: drop-shadow(0 10px 14px rgba(27,42,74,.25)); }
+        .project .thumb.logo img { inset: 24px; width: calc(100% - 48px); height: calc(100% - 48px); object-fit: contain; filter: drop-shadow(0 8px 22px rgba(157,78,221,.45)); }
         .project .body { padding: 24px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
         .project h3 { margin: 0; font-size: 1.4rem; letter-spacing: -0.01em; }
         .project p { margin: 0; color: var(--muted); }
@@ -165,7 +175,7 @@
         .project.is-new::after {
             content: "new!"; position: absolute; top: 12px; right: 14px;
             font-family: "Gochi Hand", cursive; font-size: 1.3rem;
-            background: var(--pencil); padding: 0 12px; border-radius: 4px; transform: rotate(4deg);
+            background: var(--pencil); color: #fff; padding: 0 12px; border-radius: 4px; transform: rotate(4deg);
         }
 
         /* Certifications: compact list */
@@ -174,21 +184,21 @@
             display: grid; grid-template-columns: 40px 1fr auto; gap: 16px; align-items: center;
             padding: 20px 0; border-bottom: 1px solid var(--line);
         }
-        .certs i { font-size: 1.5rem; }
+        .certs i { font-size: 1.5rem; color: var(--pencil); }
         .certs h3 { margin: 0; font-size: 1.15rem; }
         .certs small { color: var(--muted); font-size: 0.95rem; }
         .certs a { font-weight: 700; text-underline-offset: 4px; white-space: nowrap; }
 
         /* Education: timeline */
-        .timeline { list-style: none; margin: 0; padding: 0 0 0 28px; border-left: 2px solid var(--ink); max-width: 640px; }
+        .timeline { list-style: none; margin: 0; padding: 0 0 0 28px; border-left: 2px solid var(--pencil); max-width: 640px; }
         .timeline li { position: relative; padding: 0 0 40px 8px; }
         .timeline li:last-child { padding-bottom: 0; }
         .timeline li::before {
             content: ""; position: absolute; left: -38px; top: 6px;
             width: 16px; height: 16px; border-radius: 50%;
-            background: var(--paper); border: 3px solid var(--ink);
+            background: var(--paper); border: 3px solid var(--pencil);
         }
-        .timeline li.now::before { background: var(--pencil); }
+        .timeline li.now::before { background: var(--pencil); box-shadow: 0 0 14px var(--glow); }
         .timeline .year { font-weight: 700; color: var(--muted); font-size: 0.95rem; }
         .timeline h3 { margin: 2px 0 4px; font-size: 1.3rem; }
         .timeline p { margin: 0; color: var(--muted); }
@@ -199,10 +209,10 @@
         .contact p { color: var(--muted); margin: 0 auto 32px; max-width: 46ch; }
         .contact .actions { justify-content: center; }
 
-        footer { background: var(--ink); color: rgba(255,255,255,0.75); padding: 32px 0; font-size: 0.95rem; }
+        footer { background: #07070C; border-top: 1px solid var(--line); color: rgba(245,243,255,0.7); padding: 32px 0; font-size: 0.95rem; }
         footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
         footer .social { display: flex; gap: 20px; font-size: 1.4rem; }
-        footer .social a { color: var(--white); }
+        footer .social a { color: var(--ink); }
         footer .social a:hover { color: var(--pencil); }
 
         /* ===== Phones and tablets ===== */
@@ -234,7 +244,7 @@
 
         /* Buttons, links and cards respond gently */
         .btn { transition: transform .25s var(--ease), background-color .25s, box-shadow .25s; }
-        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 18px -10px rgba(27,42,74,.6); }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px -8px var(--glow); }
         .btn:active { transform: translateY(0); }
         .nav ul a { position: relative; transition: color .2s; }
         .nav ul a::after {
@@ -245,14 +255,14 @@
         .nav ul a:hover::after, .nav ul a.active::after { transform: scaleX(1); }
         .nav ul a.active { color: var(--ink); }
         .nav { transition: box-shadow .3s; }
-        .nav.scrolled { box-shadow: 0 6px 20px -14px rgba(27,42,74,.5); }
+        .nav.scrolled { box-shadow: 0 6px 24px -14px rgba(157,78,221,.6); }
 
         .project { transition: transform .35s var(--ease), box-shadow .35s var(--ease); }
-        .project:hover { transform: translateY(-6px); box-shadow: 8px 10px 0 var(--ink); }
+        .project:hover { transform: translateY(-6px); border-color: var(--pencil); box-shadow: 0 18px 40px -16px var(--glow), 0 0 0 1px var(--pencil); }
         .project .thumb img, .thumb-icon i { transition: transform .5s var(--ease); }
         .project:hover .thumb img, .project:hover .thumb-icon i { transform: scale(1.06); }
         .certs a { transition: color .2s; }
-        .certs a:hover { color: #2B3E66; }
+        .certs a:hover { color: var(--pencil); }
         footer .social a { transition: color .2s, transform .25s var(--ease); display: inline-block; }
         footer .social a:hover { transform: translateY(-3px); }
         .photo figure { transition: transform .5s var(--ease); }
@@ -291,6 +301,7 @@
     </style>
 </head>
 <body>
+    <canvas id="shadow-bg" aria-hidden="true"></canvas>
 
     <nav class="nav">
         <div class="wrap">
@@ -309,7 +320,7 @@
     <header id="home" class="hero">
         <div class="wrap">
             <div>
-                <p class="role">Full stack developer</p>
+                <p class="role">Half stack developer</p>
                 <h1>Hi, I'm Albert.</h1>
                 <p class="intro"><strong>I build web and mobile apps from end to end</strong>, from the database and server to the screen people use. I'm a BSIT student at the University of Mindanao, and when I'm away from code, I'm sketching or cooking.</p>
                 <div class="actions">
@@ -480,7 +491,7 @@
             <p>Have a project in mind or just want to say hi? Send me a message.</p>
             <div class="actions">
                 <!-- Replace YOUR-EMAIL with your email address -->
-                               <a href="https://mail.google.com/mail/?view=cm&fs=1&to=albertcandilas9@gmail.com" target="_blank" rel="noopener" class="btn btn-ink"><i class="bi bi-envelope"></i> Email me</a>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=albertcandilas9@gmail.com" target="_blank" rel="noopener" class="btn btn-ink"><i class="bi bi-envelope"></i> Email me</a>
                 <a href="https://www.facebook.com/albert.candilas" target="_blank" rel="noopener" class="btn btn-line"><i class="bi bi-facebook"></i> Facebook</a>
             </div>
         </div>
@@ -554,6 +565,93 @@
             });
         }, { rootMargin: '-45% 0px -50% 0px' });
         sections.forEach(sec => sec && spy.observe(sec));
+        // ===== Animated shadow background =====
+        // Violet mist that drifts, plus shadow particles rising like smoke.
+        (() => {
+            const cv = document.getElementById('shadow-bg');
+            const ctx = cv.getContext('2d');
+            const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            let W, H, dpr, parts = [], glows = [], mx = 0, my = 0, t = 0;
+
+            function resize() {
+                dpr = Math.min(window.devicePixelRatio || 1, 2);
+                W = cv.width = innerWidth * dpr; H = cv.height = innerHeight * dpr;
+                cv.style.width = innerWidth + 'px'; cv.style.height = innerHeight + 'px';
+                const n = Math.round(Math.min(110, innerWidth / 12));
+                parts = Array.from({ length: n }, () => spawn(true));
+            }
+            function spawn(anywhere) {
+                return {
+                    x: Math.random() * W,
+                    y: anywhere ? Math.random() * H : H + 20 * dpr,
+                    r: (Math.random() * 1.8 + 0.4) * dpr,
+                    vy: (Math.random() * 0.35 + 0.12) * dpr,
+                    sway: Math.random() * Math.PI * 2,
+                    life: Math.random() * 0.6 + 0.4,
+                    hue: Math.random() < 0.8 ? 272 : 220   // mostly violet, a few blue sparks
+                };
+            }
+            glows = [
+                { x: 0.18, y: 0.25, r: 0.55, c: '76, 29, 149', sp: 0.00011, ph: 0 },
+                { x: 0.82, y: 0.70, r: 0.50, c: '157, 78, 221', sp: 0.00008, ph: 2 },
+                { x: 0.50, y: 1.05, r: 0.65, c: '60, 20, 120', sp: 0.00006, ph: 4 }
+            ];
+
+            function frame(now) {
+                t = now || 0;
+                ctx.clearRect(0, 0, W, H);
+
+                // Drifting violet mist
+                ctx.globalCompositeOperation = 'lighter';
+                glows.forEach(g => {
+                    const gx = (g.x + Math.sin(t * g.sp + g.ph) * 0.08) * W - mx * 30 * dpr;
+                    const gy = (g.y + Math.cos(t * g.sp * 1.3 + g.ph) * 0.06) * H - my * 30 * dpr;
+                    const gr = g.r * Math.max(W, H);
+                    const grad = ctx.createRadialGradient(gx, gy, 0, gx, gy, gr);
+                    const pulse = 0.16 + Math.sin(t * 0.0006 + g.ph) * 0.04;
+                    grad.addColorStop(0, `rgba(${g.c}, ${pulse})`);
+                    grad.addColorStop(1, `rgba(${g.c}, 0)`);
+                    ctx.fillStyle = grad;
+                    ctx.fillRect(0, 0, W, H);
+                });
+
+                // Rising shadow particles
+                parts.forEach((p, i) => {
+                    if (!still) {
+                        p.y -= p.vy;
+                        p.sway += 0.01;
+                        p.x += Math.sin(p.sway) * 0.25 * dpr;
+                        if (p.y < -20 * dpr) parts[i] = spawn(false);
+                    }
+                    const fade = Math.min(1, p.y / H * 1.4) * p.life;   // fade out near the top
+                    const px = p.x - mx * 12 * dpr, py = p.y - my * 12 * dpr;
+                    const g = ctx.createRadialGradient(px, py, 0, px, py, p.r * 6);
+                    g.addColorStop(0, `hsla(${p.hue}, 90%, 75%, ${fade})`);
+                    g.addColorStop(1, `hsla(${p.hue}, 90%, 55%, 0)`);
+                    ctx.fillStyle = g;
+                    ctx.beginPath(); ctx.arc(px, py, p.r * 6, 0, Math.PI * 2); ctx.fill();
+                });
+                ctx.globalCompositeOperation = 'source-over';
+
+                // Dark vignette so text stays readable
+                const v = ctx.createRadialGradient(W / 2, H / 2, Math.min(W, H) * 0.3, W / 2, H / 2, Math.max(W, H) * 0.8);
+                v.addColorStop(0, 'rgba(11,11,18,0)');
+                v.addColorStop(1, 'rgba(11,11,18,0.75)');
+                ctx.fillStyle = v; ctx.fillRect(0, 0, W, H);
+
+                if (!still && !document.hidden) requestAnimationFrame(frame);
+            }
+
+            // Subtle parallax with the mouse
+            addEventListener('pointermove', e => {
+                mx = e.clientX / innerWidth - 0.5; my = e.clientY / innerHeight - 0.5;
+            }, { passive: true });
+            addEventListener('resize', () => { resize(); if (still) frame(0); });
+            document.addEventListener('visibilitychange', () => { if (!document.hidden && !still) requestAnimationFrame(frame); });
+
+            resize();
+            requestAnimationFrame(frame);
+        })();
     </script>
 </body>
 </html>
